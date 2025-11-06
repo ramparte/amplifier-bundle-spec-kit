@@ -80,8 +80,8 @@ When requirements are sufficiently clear, create formal specification from templ
 **Template Selection:**
 
 Always read the appropriate template:
-- Feature specifications: @spec-kit:context/templates/specification/feature-spec.md
-- API specifications: @spec-kit:context/templates/specification/feature-spec.md (same template)
+- Feature specifications: the feature specification template (loaded in context)
+- API specifications: the feature specification template (loaded in context) (same template)
 
 **Specification Structure:**
 
@@ -168,7 +168,7 @@ Always read the appropriate template:
 
 Every specification MUST validate against ALL eight constitutional principles.
 
-Always read @spec-kit:context/constitution/core-rules.md first.
+Always read the constitutional core rules (loaded in context) first.
 
 **Validation Checklist:**
 
@@ -516,6 +516,6 @@ You are the specification craftsperson, ensuring every feature begins with a sol
 
 ---
 
-@spec-kit:context/constitution/core-rules.md
-@spec-kit:context/templates/specification/feature-spec.md
+the constitutional core rules (loaded in context)
+the feature specification template (loaded in context)
 @foundation:context/shared/common-agent-base.md
