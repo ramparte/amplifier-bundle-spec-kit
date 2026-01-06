@@ -1,18 +1,14 @@
 ---
-profile:
-  name: implementer
+bundle:
+  name: spec-kit-implementer
   version: 1.0.0
-  description: Spec-Kit implementation mode for executing tasks and verifying against specifications
-  extends: foundation:profiles/base.md
+  description: "Spec-Kit implementation mode for executing tasks and verifying against specifications"
+  author: "Brian Krabach"
+  license: MIT
+  repository: https://github.com/ramparte/amplifier-bundle-spec-kit
 
-session:
-  orchestrator:
-    module: loop-streaming
-    source: git+https://github.com/microsoft/amplifier-module-loop-streaming@main
-    config:
-      extended_thinking: false
-  context:
-    module: context-simple
+includes:
+  - foundation:dev
 
 providers:
   - module: provider-anthropic
@@ -20,40 +16,18 @@ providers:
     config:
       model: claude-sonnet-4
       temperature: 0.4
-      debug: false
-
-task:
-  max_recursion_depth: 2
-
-ui:
-  show_thinking_stream: false
-  show_tool_lines: 5
-
-tools:
-  - module: tool-filesystem
-    source: git+https://github.com/microsoft/amplifier-module-tool-filesystem@main
-  - module: tool-bash
-    source: git+https://github.com/microsoft/amplifier-module-tool-bash@main
-  - module: tool-task
-    source: git+https://github.com/microsoft/amplifier-module-tool-task@main
-
-hooks:
-  - module: hooks-streaming-ui
-    source: git+https://github.com/microsoft/amplifier-module-hooks-streaming-ui@main
 
 agents:
-  dirs:
-    - ./agents
-  active:
-    - constitutional-guardian
-    - implementation-guide
+  include:
+    - spec-kit:constitutional-guardian
+    - spec-kit:implementation-guide
 ---
 
 @foundation:context/shared/common-agent-base.md
 @foundation:context/IMPLEMENTATION_PHILOSOPHY.md
 @foundation:context/MODULAR_DESIGN_PHILOSOPHY.md
-@amplifier-collection-spec-kit:context/constitution/core-rules.md
-@amplifier-collection-spec-kit:context/templates/implementation/task-template.md
+@spec-kit:context/constitution/core-rules.md
+@spec-kit:context/templates/implementation/task-template.md
 
 ## Spec-Kit Implementation Mode
 
@@ -98,7 +72,7 @@ You are in **Implementation Mode** for Specification-Driven Development workflow
 
 **Specification is the Contract**:
 - Code must match specification EXACTLY
-- If specification unclear: Back to spec-writer profile
+- If specification unclear: Back to spec-writer bundle
 - If code needs to differ: Update specification first
 - Specification is source of truth
 
@@ -206,26 +180,9 @@ Primary: Project root (varies)
 Inputs: `specs/`, `plans/`, `tasks/`
 Outputs: Implementation code + tests
 
-### Delegation Patterns
-
-**For clean implementation**:
-```
-Task modular-builder: "Implement [module] following specification and constitutional principles"
-```
-
-**For debugging**:
-```
-Task bug-hunter: "Debug [issue] in implementation"
-```
-
-**For test coverage**:
-```
-Task test-coverage: "Ensure adequate test coverage for [module]"
-```
-
 ### Previous Phase
 
-From planner profile:
+From planner bundle:
 - Implementation plan (plans/[feature]-implementation.md)
 - Research document (plans/research.md)
 - Task breakdown (tasks/[feature]-tasks.md)

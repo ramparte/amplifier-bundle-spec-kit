@@ -1,4 +1,4 @@
-# Specification-Driven Development Collection
+# Specification-Driven Development Bundle
 
 > Formal specification-driven workflow for greenfield development with constitutional governance
 
@@ -6,10 +6,10 @@
 
 ## What This Provides
 
-The **Spec-Kit Collection** brings GitHub's Specification-Driven Development methodology to Amplifier as native agents and workflows:
+The **Spec-Kit Bundle** brings GitHub's Specification-Driven Development methodology to Amplifier as native agents and workflows:
 
 - **8 specialized workflow agents** - Each expert in an SDD phase
-- **3 phase-specific profiles** - Specification, planning, and implementation modes
+- **3 phase-specific bundles** - Specification, planning, and implementation modes
 - **Constitutional governance** - Explicit quality rules and validation
 - **Template-driven development** - Constrain LLMs for consistent specifications
 - **Rich artifact generation** - Specs, plans, tasks, research, data models, contracts
@@ -28,23 +28,24 @@ Spec-Kit: **Specs → Validation → Code** (specs drive everything)
 ### Installation
 
 ```bash
-uvx --from git+https://github.com/microsoft/amplifier@next amplifier collection add git+https://github.com/robotdad/amplifier-collection-spec-kit@main
+# Run directly from GitHub with a specific bundle
+amplifier run --bundle git+https://github.com/ramparte/amplifier-bundle-spec-kit@main:bundle-spec-writer.md "Your task"
+
+# Or clone and run locally
+git clone https://github.com/ramparte/amplifier-bundle-spec-kit
 ```
 
 ### Usage
 
 ```bash
 # Specification Phase (Create formal specifications)
-uvx --from git+https://github.com/microsoft/amplifier@next amplifier profile use spec-kit:spec-writer
-uvx --from git+https://github.com/microsoft/amplifier@next amplifier run "Create API specification for user authentication"
+amplifier run --bundle spec-kit:bundle-spec-writer.md "Create API specification for user authentication"
 
 # Planning Phase (Generate implementation plans)
-uvx --from git+https://github.com/microsoft/amplifier@next amplifier profile use spec-kit:planner
-uvx --from git+https://github.com/microsoft/amplifier@next amplifier run "Create implementation plan for specs/auth-api.md"
+amplifier run --bundle spec-kit:bundle-planner.md "Create implementation plan for specs/auth-api.md"
 
 # Implementation Phase (Execute implementation)
-uvx --from git+https://github.com/microsoft/amplifier@next amplifier profile use spec-kit:implementer
-uvx --from git+https://github.com/microsoft/amplifier@next amplifier run "Implement plans/auth-api.md"
+amplifier run --bundle spec-kit:bundle-implementer.md "Implement plans/auth-api.md"
 ```
 
 ---
@@ -71,11 +72,11 @@ uvx --from git+https://github.com/microsoft/amplifier@next amplifier run "Implem
 
 ## Resources
 
-### Profiles
+### Bundles
 
-- **spec-writer** - Specification creation with constitutional validation
-- **planner** - Implementation planning with research and task breakdown
-- **implementer** - Execution and verification
+- **bundle-spec-writer.md** - Specification creation with constitutional validation
+- **bundle-planner.md** - Implementation planning with research and task breakdown
+- **bundle-implementer.md** - Execution and verification
 
 ### Agents (8 specialists)
 

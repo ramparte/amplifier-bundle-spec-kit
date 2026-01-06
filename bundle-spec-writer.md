@@ -1,18 +1,14 @@
 ---
-profile:
-  name: spec-writer
+bundle:
+  name: spec-kit-spec-writer
   version: 1.0.0
-  description: Spec-Kit specification mode for creating and refining formal specifications
-  extends: foundation:profiles/base.md
+  description: "Spec-Kit specification mode for creating and refining formal specifications"
+  author: "Brian Krabach"
+  license: MIT
+  repository: https://github.com/ramparte/amplifier-bundle-spec-kit
 
-session:
-  orchestrator:
-    module: loop-streaming
-    source: git+https://github.com/microsoft/amplifier-module-loop-streaming@main
-    config:
-      extended_thinking: false
-  context:
-    module: context-simple
+includes:
+  - foundation:dev
 
 providers:
   - module: provider-anthropic
@@ -20,43 +16,21 @@ providers:
     config:
       model: claude-sonnet-4
       temperature: 0.3
-      debug: false
-
-task:
-  max_recursion_depth: 2
-
-ui:
-  show_thinking_stream: false
-  show_tool_lines: 3
-
-tools:
-  - module: tool-filesystem
-    source: git+https://github.com/microsoft/amplifier-module-tool-filesystem@main
-  - module: tool-search
-    source: git+https://github.com/microsoft/amplifier-module-tool-search@main
-  - module: tool-task
-    source: git+https://github.com/microsoft/amplifier-module-tool-task@main
-
-hooks:
-  - module: hooks-streaming-ui
-    source: git+https://github.com/microsoft/amplifier-module-hooks-streaming-ui@main
 
 agents:
-  dirs:
-    - ./agents
-  active:
-    - constitutional-guardian
-    - spec-smith
-    - spec-critic
-    - requirement-clarifier
+  include:
+    - spec-kit:constitutional-guardian
+    - spec-kit:spec-smith
+    - spec-kit:spec-critic
+    - spec-kit:requirement-clarifier
 ---
 
 @foundation:context/shared/common-agent-base.md
 @foundation:context/IMPLEMENTATION_PHILOSOPHY.md
 @foundation:context/MODULAR_DESIGN_PHILOSOPHY.md
-@amplifier-collection-spec-kit:context/constitution/core-rules.md
-@amplifier-collection-spec-kit:context/constitution/spec-requirements.md
-@amplifier-collection-spec-kit:context/templates/specification/feature-spec.md
+@spec-kit:context/constitution/core-rules.md
+@spec-kit:context/constitution/spec-requirements.md
+@spec-kit:context/templates/specification/feature-spec.md
 
 ## Spec-Kit Specification Mode
 
@@ -171,7 +145,7 @@ User Approval:
   ↓
   Approve for planning phase
   ↓
-Switch to planner profile
+Switch to planner bundle
 ```
 
 ### [NEEDS CLARIFICATION] Pattern
@@ -205,13 +179,13 @@ Templates: Available via @mentions
 4. constitutional-guardian validates
 5. User reviews and approves
 6. THEN commit specification
-7. Switch to planner profile
+7. Switch to planner bundle
 
 ### Next Phase
 
 After specification approved and committed:
 ```bash
-uvx --from git+https://github.com/microsoft/amplifier@next amplifier profile use amplifier-collection-spec-kit:planner
+amplifier run --bundle spec-kit:bundle-planner.md "Continue with planning"
 ```
 
 Begins planning phase with research-architect, plan-architect, and task-decomposer.

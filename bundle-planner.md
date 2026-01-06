@@ -1,18 +1,14 @@
 ---
-profile:
-  name: planner
+bundle:
+  name: spec-kit-planner
   version: 1.0.0
-  description: Spec-Kit planning mode for implementation planning and task breakdown
-  extends: foundation:profiles/base.md
+  description: "Spec-Kit planning mode for implementation planning and task breakdown"
+  author: "Brian Krabach"
+  license: MIT
+  repository: https://github.com/ramparte/amplifier-bundle-spec-kit
 
-session:
-  orchestrator:
-    module: loop-streaming
-    source: git+https://github.com/microsoft/amplifier-module-loop-streaming@main
-    config:
-      extended_thinking: false
-  context:
-    module: context-simple
+includes:
+  - foundation:dev
 
 providers:
   - module: provider-anthropic
@@ -20,45 +16,25 @@ providers:
     config:
       model: claude-sonnet-4
       temperature: 0.4
-      debug: false
-
-task:
-  max_recursion_depth: 2
-
-ui:
-  show_thinking_stream: false
-  show_tool_lines: 5
 
 tools:
-  - module: tool-filesystem
-    source: git+https://github.com/microsoft/amplifier-module-tool-filesystem@main
   - module: tool-web
     source: git+https://github.com/microsoft/amplifier-module-tool-web@main
-  - module: tool-search
-    source: git+https://github.com/microsoft/amplifier-module-tool-search@main
-  - module: tool-task
-    source: git+https://github.com/microsoft/amplifier-module-tool-task@main
-
-hooks:
-  - module: hooks-streaming-ui
-    source: git+https://github.com/microsoft/amplifier-module-hooks-streaming-ui@main
 
 agents:
-  dirs:
-    - ./agents
-  active:
-    - constitutional-guardian
-    - research-architect
-    - plan-architect
-    - task-decomposer
+  include:
+    - spec-kit:constitutional-guardian
+    - spec-kit:research-architect
+    - spec-kit:plan-architect
+    - spec-kit:task-decomposer
 ---
 
 @foundation:context/shared/common-agent-base.md
 @foundation:context/IMPLEMENTATION_PHILOSOPHY.md
 @foundation:context/MODULAR_DESIGN_PHILOSOPHY.md
-@amplifier-collection-spec-kit:context/constitution/core-rules.md
-@amplifier-collection-spec-kit:context/templates/planning/plan-template.md
-@amplifier-collection-spec-kit:context/templates/implementation/task-template.md
+@spec-kit:context/constitution/core-rules.md
+@spec-kit:context/templates/planning/plan-template.md
+@spec-kit:context/templates/implementation/task-template.md
 
 ## Spec-Kit Planning Mode
 
@@ -200,24 +176,8 @@ User Approval:
   ↓
   Approve for implementation
   ↓
-Switch to implementer profile
+Switch to implementer bundle
 ```
-
-### Constitutional Enforcement
-
-**constitutional-guardian validates**:
-- Technology choices (anti-abstraction rule)
-- Plan complexity (simplicity gates)
-- Testing strategy (test-first, integration priority)
-- Architecture (library-first, CLI interface)
-- Versioning approach
-
-**Flags violations**:
-- Over-engineering in plan
-- Unnecessary abstractions
-- Speculative features
-- Missing test strategy
-- Non-compliant architecture
 
 ### Working Directory
 
@@ -226,20 +186,9 @@ Specifications: `specs/` (input from spec-writer phase)
 Plans: `plans/` (output from this phase)
 Tasks: `tasks/` (output from this phase)
 
-### Authorization Policy
-
-**Plans reviewed before implementation**:
-1. research-architect researches options
-2. plan-architect creates plan
-3. task-decomposer breaks into tasks
-4. constitutional-guardian validates all
-5. User reviews artifacts
-6. User approves for implementation
-7. THEN switch to implementer profile
-
 ### Previous Phase
 
-From spec-writer profile:
+From spec-writer bundle:
 - Approved specification (specs/[feature].md)
 - Constitutional compliance validated
 - All ambiguities resolved
@@ -248,7 +197,7 @@ From spec-writer profile:
 
 After planning approved:
 ```bash
-uvx --from git+https://github.com/microsoft/amplifier@next amplifier profile use amplifier-collection-spec-kit:implementer
+amplifier run --bundle spec-kit:bundle-implementer.md "Execute implementation"
 ```
 
 Begins implementation with tasks and plan as guide.
